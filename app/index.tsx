@@ -1,5 +1,5 @@
 import { Image, ScrollView, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AdjustmentsVerticalIcon,
@@ -9,8 +9,21 @@ import {
 import SearchTextInput from "@/components/Shared/SearchTextInput";
 import Categories from "@/components/Data/Categories";
 import FeaturedRow from "@/components/Data/FeaturedRow";
+import { getCategories, getFullFeaturedRows } from "@/sanity";
 
 const index = () => {
+  const [featuredRows, setFeaturedRows] = useState<any>();
+  const [categories, setCategories] = useState<any>();
+  useEffect(() => {
+    getFullFeaturedRows().then((data) => {
+      setFeaturedRows(data);
+      console.log("Featured rows", data);
+    });
+    getCategories().then((data) => {
+      setCategories(data);
+      console.log("Categories", data);
+    });
+  }, []);
   return (
     <SafeAreaView className="flex-1">
       <View className="bg-white  pt-2 px-4">
@@ -42,17 +55,16 @@ const index = () => {
         showsVerticalScrollIndicator={false}
       >
         <Categories />
-        <FeaturedRow id={"1"} title={"Featured"} description={"Featured"} />
-        <FeaturedRow
-          id={"2"}
-          title={"Tasty Discounts"}
-          description={"Discounts"}
-        />
-        <FeaturedRow
-          id={"3"}
-          title={"Offers near you"}
-          description={"Offers"}
-        />
+        {featuredRows?.map((featuredRow: any) => {
+          return (
+            <FeaturedRow
+              key={featuredRow._id}
+              id={featuredRow._id}
+              title={featuredRow.name}
+              description={featuredRow.short_description}
+            />
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );

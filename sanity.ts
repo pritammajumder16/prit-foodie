@@ -30,3 +30,24 @@ export async function getRestaurants() {
   const restaurants = await client.fetch('*[_type == "restaurant"]');
   return restaurants;
 }
+export async function getFullFeaturedRows() {
+  const fullFeaturedRows = await client.fetch(
+    `*[_type == "featured"] {
+        ...,
+        restaurants[]->{
+          ...,
+          dishes[]->
+        }
+      }`
+  );
+  return fullFeaturedRows;
+}
+export async function getFullRestaurants() {
+  const fullRestaurants = await client.fetch(
+    `*[_type == "restaurant"] {
+        ...,
+        dishes[]->
+      }`
+  );
+  return fullRestaurants;
+}
