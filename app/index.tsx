@@ -9,19 +9,16 @@ import {
 import SearchTextInput from "@/components/Shared/SearchTextInput";
 import Categories from "@/components/Data/Categories";
 import FeaturedRow from "@/components/Data/FeaturedRow";
-import { getCategories, getFullFeaturedRows } from "@/sanity";
+import { getFullFeaturedRows } from "@/services/sanity";
+import { IFeaturedRow } from "@/interfaces/interfaces";
 
 const index = () => {
-  const [featuredRows, setFeaturedRows] = useState<any>();
-  const [categories, setCategories] = useState<any>();
+  const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
+
   useEffect(() => {
     getFullFeaturedRows().then((data) => {
       setFeaturedRows(data);
       console.log("Featured rows", data);
-    });
-    getCategories().then((data) => {
-      setCategories(data);
-      console.log("Categories", data);
     });
   }, []);
   return (
@@ -51,7 +48,7 @@ const index = () => {
         </View>
       </View>
       <ScrollView
-        className="pt-2 px-4 mb-2"
+        className="pt-2 px-4 mb-4"
         showsVerticalScrollIndicator={false}
       >
         <Categories />

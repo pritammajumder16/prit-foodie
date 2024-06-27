@@ -46,8 +46,26 @@ export async function getFullRestaurants() {
   const fullRestaurants = await client.fetch(
     `*[_type == "restaurant"] {
         ...,
-        dishes[]->
+        dishes[]->,
+        type->
       }`
   );
+
   return fullRestaurants;
+}
+export async function getOneFeaturedRow(id: string) {
+  const fullRestaurant = await client.fetch(
+    `*[_type == "featured" && _id == $id] {
+      ...,
+      restaurants[]->{
+        ...,
+        dishes[]->,
+        type-> {
+          name
+        }
+      },
+    }[0]`,
+    { id }
+  );
+  return fullRestaurant;
 }

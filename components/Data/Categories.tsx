@@ -1,15 +1,27 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
+import { getCategories } from "@/services/sanity";
+import { ICategory } from "@/interfaces/interfaces";
 
 const Categories = () => {
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  useEffect(() => {
+    (async () => {
+      const response = await getCategories();
+      setCategories(response);
+      console.log(response);
+    })();
+  }, []);
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <CategoryCard imgUrl="https://links.papareact.com/gn7" title="Testing" />
-      <CategoryCard imgUrl="https://links.papareact.com/gn7" title="Testing" />
-      <CategoryCard imgUrl="https://links.papareact.com/gn7" title="Testing" />
-      <CategoryCard imgUrl="https://links.papareact.com/gn7" title="Testing" />
-      <CategoryCard imgUrl="https://links.papareact.com/gn7" title="Testing" />
+      {categories?.map((category) => (
+        <CategoryCard
+          key={category._id}
+          imgUrl={category.image}
+          title={category.name}
+        />
+      ))}
     </ScrollView>
   );
 };
