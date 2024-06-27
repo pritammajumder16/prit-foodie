@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import React, { useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
 import { urlFor } from "@/services/sanity";
@@ -32,6 +39,7 @@ const restaurant = () => {
   const navigation = useNavigation();
   return (
     <ScrollView>
+      <StatusBar translucent barStyle="light-content" />
       <View className=" relative">
         <Image
           className="w-full h-56 p-4 bg-gray-300"

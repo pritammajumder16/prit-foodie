@@ -1,5 +1,5 @@
-import { Image, ScrollView, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { Image, ScrollView, StatusBar, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AdjustmentsVerticalIcon,
@@ -11,6 +11,7 @@ import Categories from "@/components/Data/Categories";
 import FeaturedRow from "@/components/Data/FeaturedRow";
 import { getFullFeaturedRows } from "@/services/sanity";
 import { IFeaturedRow } from "@/interfaces/interfaces";
+import { useFocusEffect } from "expo-router";
 
 const index = () => {
   const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
@@ -20,6 +21,12 @@ const index = () => {
       setFeaturedRows(data);
     });
   }, []);
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle("dark-content"); // 'light-content' is also available
+      StatusBar.setBackgroundColor("white"); //add color code
+    }, [])
+  );
   return (
     <SafeAreaView className="flex-1">
       <View className="bg-white  pt-2 px-4">
