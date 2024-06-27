@@ -4,23 +4,14 @@ import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
 import { getOneFeaturedRow } from "@/services/sanity";
 import { IRestaurant } from "@/interfaces/interfaces";
+import { TFeaturedRow } from "@/interfaces/types";
 
-const FeaturedRow = ({
-  title,
-  description,
-  id,
-}: {
-  title: string;
-  description: string;
-  id: string;
-}) => {
+const FeaturedRow = ({ title, description, id }: TFeaturedRow) => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
   useEffect(() => {
     (async () => {
       const response = await getOneFeaturedRow(id);
       setRestaurants(response.restaurants);
-
-      console.log("Restaurants", response.restaurants);
     })();
   }, [id]);
   return (

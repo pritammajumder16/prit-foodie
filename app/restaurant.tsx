@@ -10,7 +10,7 @@ import {
 } from "react-native-heroicons/outline";
 import { StarIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "expo-router";
-import { IDish, IRestaurant } from "@/interfaces/interfaces";
+import { IDish } from "@/interfaces/interfaces";
 import DishRow from "@/components/Data/DishRow";
 
 const restaurant = () => {
@@ -28,9 +28,7 @@ const restaurant = () => {
       short_description,
     },
   } = useRoute<any>();
-  useEffect(() => {
-    console.log("dishes", dishes);
-  }, []);
+
   const navigation = useNavigation();
   return (
     <ScrollView>
@@ -76,7 +74,7 @@ const restaurant = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text className="px-4 pt-4 font-bold text-xl">Menu</Text>
+        <Text className="p-4 font-bold text-xl">Menu</Text>
         {dishes?.map((dish: IDish) => {
           return (
             <DishRow

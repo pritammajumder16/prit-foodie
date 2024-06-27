@@ -18,7 +18,6 @@ const index = () => {
   useEffect(() => {
     getFullFeaturedRows().then((data) => {
       setFeaturedRows(data);
-      console.log("Featured rows", data);
     });
   }, []);
   return (
@@ -52,7 +51,7 @@ const index = () => {
         showsVerticalScrollIndicator={false}
       >
         <Categories />
-        {featuredRows?.map((featuredRow: any) => {
+        {featuredRows?.map((featuredRow: IFeaturedRow) => {
           return (
             <FeaturedRow
               key={featuredRow._id}

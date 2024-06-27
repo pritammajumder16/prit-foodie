@@ -5,6 +5,7 @@ import { StarIcon } from "react-native-heroicons/solid";
 import { urlFor } from "@/services/sanity";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { TRestaurantCard } from "@/interfaces/types";
 
 const RestaurantCard = ({
   id,
@@ -17,18 +18,7 @@ const RestaurantCard = ({
   long,
   lat,
   short_description,
-}: {
-  id: string;
-  imgUrl: string;
-  title: string;
-  rating: number;
-  genre: string;
-  address: string;
-  dishes: any[];
-  long: number;
-  lat: number;
-  short_description: string;
-}) => {
+}: TRestaurantCard) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (

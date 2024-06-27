@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import { urlFor } from "@/services/sanity";
 import { formatINR } from "@/utils/formatINR";
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
+import { TDishRow } from "@/interfaces/types";
 
-const DishRow = ({ id, name, description, price, image }: any) => {
+const DishRow = ({ id, name, description, price, image }: TDishRow) => {
   const [isPressed, setIsPressed] = useState<boolean>(false);
   return (
     <>

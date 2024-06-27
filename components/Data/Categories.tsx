@@ -10,7 +10,6 @@ const Categories = () => {
     (async () => {
       const response = await getCategories();
       setCategories(response);
-      console.log(response);
     })();
   }, []);
   return (
