@@ -105,7 +105,10 @@ const basket = () => {
           </View>
 
           <TouchableOpacity className="rounded-lg bg-primary-400 p-4">
-            <Text className="text-center w-fit text-white text-lg font-bold">
+            <Text
+              className="text-center w-fit text-white text-lg font-bold"
+              onPress={() => navigation.navigate("preparingOrder")}
+            >
               Place order
             </Text>
           </TouchableOpacity>

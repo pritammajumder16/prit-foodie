@@ -9,7 +9,11 @@ const _layout = () => {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="restaurant" />
-        <Stack.Screen name="basket" />
+        <Stack.Screen name="basket" options={{ presentation: "modal" }} />
+        <Stack.Screen
+          name="preparingOrder"
+          options={{ presentation: "fullScreenModal" }}
+        />
       </Stack>
     </Provider>
   );
