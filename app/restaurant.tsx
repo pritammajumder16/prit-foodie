@@ -20,6 +20,8 @@ import { useNavigation } from "expo-router";
 import { IDish } from "@/interfaces/interfaces";
 import DishRow from "@/components/Data/DishRow";
 import BasketItems from "@/components/Data/BasketItems";
+import { useDispatch } from "react-redux";
+import { setRestaurant } from "@/redux/reducers/restaurantReducer";
 
 const restaurant = () => {
   const {
@@ -36,7 +38,23 @@ const restaurant = () => {
       short_description,
     },
   } = useRoute<any>();
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      setRestaurant({
+        id,
+        imgUrl,
+        title,
+        rating,
+        genre,
+        address,
+        dishes,
+        long,
+        lat,
+        short_description,
+      })
+    );
+  }, [dispatch]);
   const navigation = useNavigation();
   return (
     <>

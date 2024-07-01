@@ -23,14 +23,17 @@ export const basketSlice = createSlice({
 });
 export const { addItem, removeItem } = basketSlice.actions;
 
-export const selectBasketItems = (state: any) => {
+export const selectBasketItems = (state: { basket: { items: TDishRow[] } }) => {
   return state.basket.items;
 };
-export const selectBasketItemWithId = (state: any, id: string) => {
+export const selectBasketItemWithId = (
+  state: { basket: { items: TDishRow[] } },
+  id: string
+) => {
   return state.basket.items.filter((item: TDishRow) => item.id == id);
 };
 
-export const selectBasketTotal = (state: any) =>
+export const selectBasketTotal = (state: { basket: { items: TDishRow[] } }) =>
   state.basket.items.reduce(
     (total: number, item: TDishRow) => (total += item.price),
     0

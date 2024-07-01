@@ -15,7 +15,13 @@ import {
 const DishRow = ({ id, name, description, price, image }: TDishRow) => {
   const [isPressed, setIsPressed] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const items = useSelector((state) => selectBasketItemWithId(state, id));
+  const items = useSelector(
+    (state: {
+      basket: {
+        items: TDishRow[];
+      };
+    }) => selectBasketItemWithId(state, id)
+  );
   const addItemToBasket = () => {
     dispatch(addItem({ id, name, description, price, image }));
   };

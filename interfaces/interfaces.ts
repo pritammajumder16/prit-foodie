@@ -14,10 +14,10 @@ export interface IRestaurant {
   name: string;
   rating: number;
   short_description: string;
-  _createdAt: string;
+  _createdAt?: string;
   _id: string;
-  _type: string;
-  _updatedAt: string;
+  _type?: string;
+  _updatedAt?: string;
   dishes?: IDish[];
   image: any;
   type: IType;
