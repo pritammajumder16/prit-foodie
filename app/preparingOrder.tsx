@@ -10,7 +10,7 @@ const preparingOrder = () => {
     setTimeout(() => {
       navigation.navigate("delivery");
     }, 4000);
-  });
+  }, []);
   return (
     <SafeAreaView className="bg-primary-400 flex-1 justify-center items-center">
       <Animatable.Image

@@ -14,6 +14,10 @@ const _layout = () => {
           name="preparingOrder"
           options={{ presentation: "fullScreenModal" }}
         />
+        <Stack.Screen
+          name="delivery"
+          options={{ presentation: "fullScreenModal" }}
+        />
       </Stack>
     </Provider>
   );
