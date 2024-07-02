@@ -1,9 +1,14 @@
-import { View, Text, SafeAreaView, Image } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { useNavigation } from "expo-router";
 import { useSelector } from "react-redux";
 import { selectRestaurant } from "@/redux/reducers/restaurantReducer";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { XMarkIcon } from "react-native-heroicons/solid";
 import * as Progress from "react-native-progress";
 import MapView, { Marker } from "react-native-maps";
@@ -17,6 +22,7 @@ const delivery = () => {
           <TouchableOpacity>
             <XMarkIcon color={"white"} size={30} />
           </TouchableOpacity>
+          ` ` 0.............................................................
           <Text className="font-light text-white text-lg ">Order help</Text>
         </View>
         <View className="bg-white mx-5 my-2 rounded-md p-6 z-50 shadow-md">
