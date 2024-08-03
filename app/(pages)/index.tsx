@@ -11,7 +11,7 @@ import Categories from "@/components/Data/Categories";
 import FeaturedRow from "@/components/Data/FeaturedRow";
 import { getFullFeaturedRows } from "@/services/sanity";
 import { IFeaturedRow } from "@/interfaces/interfaces";
-import { useFocusEffect } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 const index = () => {
   const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
 
@@ -28,6 +28,9 @@ const index = () => {
   );
   return (
     <SafeAreaView className="flex-1">
+      <Link href={"/signUp"} className="text-primary-500">
+        <Text>Sign up now!</Text>
+      </Link>
       <View className="bg-white  pt-2 px-4">
         <View className="flex-row items-center space-x-2">
           <Image
