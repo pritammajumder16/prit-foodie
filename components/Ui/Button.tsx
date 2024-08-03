@@ -8,7 +8,12 @@ interface CustomButtonProps extends ButtonProps {
   variant: VariantType;
   children: JSX.Element;
 }
-const Button = ({ children, className, variant }: CustomButtonProps) => {
+const Button = ({
+  children,
+  className,
+  variant,
+  ...props
+}: CustomButtonProps) => {
   let initClassNames =
     "border px-5 py-2 border-primary-300 rounded-md bg-primary-200 text-primary-500 w-fit";
   if (variant === "error") {
@@ -17,7 +22,7 @@ const Button = ({ children, className, variant }: CustomButtonProps) => {
     initClassNames = "border-green-500";
   }
   return (
-    <TouchableOpacity className={twMerge(className, initClassNames)}>
+    <TouchableOpacity {...props} className={twMerge(className, initClassNames)}>
       {children}
     </TouchableOpacity>
   );

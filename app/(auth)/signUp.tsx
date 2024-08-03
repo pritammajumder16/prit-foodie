@@ -1,61 +1,52 @@
-import GoogleIcon from "@/assets/staticSvgComponents/google";
-import Button from "@/components/Ui/Button";
-import CommonTextInput from "@/components/Ui/CommonTextInput";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../context/AuthContext";
+import { Toast } from "toastify-react-native";
+import CustomLogo from "@/assets/staticSvgComponents/logo";
+import AuthForm from "@/components/Data/AuthForm";
+import { AuthFormProps } from "@/interfaces/types";
 const signUp = () => {
+  const auth = useAuth();
+  const router = useRouter();
+  const handleSignUp = async (val: AuthFormProps) => {
+    console.log("auth", auth);
+    if (auth) {
+      try {
+        await createUserWithEmailAndPassword(auth, val.email, val.password);
+        Toast.success("Successfully created an account", "top");
+        router.push("/signIn");
+      } catch (error) {
+        Toast.error(
+          error instanceof Error ? error.message : String(error),
+          "top"
+        );
+      }
+    }
+  };
   return (
     <SafeAreaView>
-      <View className="px-5 py-10 flex  h-full">
-        <View className="flex items-center gap-4">
-          <Text className=" text-3xl font-semibold">Sign up</Text>
-          <Text className="text-2xl font-semibold">Welcome back</Text>
+      <ScrollView className="px-5 py-10 flex  h-full">
+        <View className="w-full flex items-center">
+          <CustomLogo />
         </View>
-        <View className="flex flex-col gap-5 mt-10">
-          <View>
-            <CommonTextInput
-              placeholder="Enter your email"
-              variant={"default"}
-              className={""}
-            />
-          </View>
-          <View>
-            <CommonTextInput
-              textContentType="password"
-              placeholder="Enter your Password"
-              variant={"default"}
-              className={""}
-            />
-          </View>
-        </View>
-        <View className="w-fit mt-10 flex items-center">
-          <Button variant={"default"} title={""}>
-            <Text className="text-primary-500 font-semibold  text-lg">
-              Sign up
-            </Text>
-          </Button>
-        </View>
-        <Text className="text-center mt-10 text-lg">
-          Already have an account?&nbsp;
-          <Link href={"/signIn"} className="text-primary-500">
-            Sign in!
-          </Link>
-        </Text>
-        <View className="flex flex-row overflow-hidden gap-2 mt-10 items-center">
-          <View className="border-t flex-1 border-gray-400" />
-          <Text className="text-lg ">Or</Text>
-          <View className="border-t flex-1  border-gray-400" />
-        </View>
-        <TouchableOpacity className="mt-10 flex flex-row items-center mx-auto w-fit border border-gray-400 rounded-md px-3 py-2">
-          <GoogleIcon />
-          <Text className="text-lg font-semibold">
-            &nbsp;Sign in with google
+        <View className="flex pt-5 items-center gap-4">
+          <Text className=" text-3xl font-semibold text-primary-500">
+            Sign up
           </Text>
-        </TouchableOpacity>
-      </View>
+          <Text className="text-2xl font-semibold  text-primary-500">
+            Welcome back
+          </Text>
+        </View>
+        <AuthForm
+          type={"Sign up"}
+          onSubmit={handleSignUp}
+          otherwiseRoute={"/signIn"}
+          otherwiseText={"Already have an account?"}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -25,3 +25,5 @@ export type TFeaturedRow = {
   id: string;
 };
 export type TCategoryCard = { imgUrl: string; title: string };
+
+export type AuthFormProps = { email: string; password: string };

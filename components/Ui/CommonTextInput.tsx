@@ -15,9 +15,9 @@ const CommonTextInput = ({
 }: CommonTextInputProps) => {
   let initClassNames = "border p-2 border-gray-300 rounded-md";
   if (variant === "error") {
-    initClassNames = "border-red-500";
+    initClassNames = "border p-2 border-red-500 rounded-md";
   } else if (variant === "success") {
-    initClassNames = "border-green-500";
+    initClassNames = "border p-2 border-green-500 rounded-md";
   }
   return (
     <View>
