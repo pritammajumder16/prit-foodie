@@ -12,7 +12,6 @@ import FeaturedRow from "@/components/Data/FeaturedRow";
 import { getFullFeaturedRows } from "@/services/sanity";
 import { IFeaturedRow } from "@/interfaces/interfaces";
 import { useFocusEffect } from "expo-router";
-
 const index = () => {
   const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
 

@@ -14,7 +14,7 @@ const preparingOrder = () => {
   return (
     <SafeAreaView className="bg-primary-400 flex-1 justify-center items-center">
       <Animatable.Image
-        source={require("../assets/images/waiting_img.gif")}
+        source={require("../../assets/images/waiting_img.gif")}
         iterationCount={1}
         className="h-96 w-96"
         animation="slideInUp"

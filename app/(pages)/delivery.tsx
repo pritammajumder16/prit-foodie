@@ -22,7 +22,6 @@ const delivery = () => {
           <TouchableOpacity>
             <XMarkIcon color={"white"} size={30} />
           </TouchableOpacity>
-          ` ` 0.............................................................
           <Text className="font-light text-white text-lg ">Order help</Text>
         </View>
         <View className="bg-white mx-5 my-2 rounded-md p-6 z-50 shadow-md">
