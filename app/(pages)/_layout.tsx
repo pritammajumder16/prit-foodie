@@ -5,7 +5,11 @@ const _layout = () => {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="restaurant" />
+      <Stack.Screen name="allergyfood" options={{ presentation: "modal" }} />
+      <Stack.Screen
+        name="restaurant"
+        options={{ presentation: "containedModal" }}
+      />
       <Stack.Screen name="basket" options={{ presentation: "modal" }} />
       <Stack.Screen
         name="preparingOrder"
