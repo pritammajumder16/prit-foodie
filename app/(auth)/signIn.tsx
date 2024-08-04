@@ -2,22 +2,20 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "../context/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Toast } from "toastify-react-native";
 import CustomLogo from "@/assets/staticSvgComponents/logo";
 import AuthForm from "@/components/Data/AuthForm";
 import { AuthFormProps } from "@/interfaces/types";
+import { auth } from "@/firebaseConfig";
 const signIn = () => {
-  const auth = useAuth();
   const router = useRouter();
   const handlesignIn = async (val: AuthFormProps) => {
     console.log("auth", auth);
     if (auth) {
       try {
-        await createUserWithEmailAndPassword(auth, val.email, val.password);
-        Toast.success("Successfully created an account", "top");
-        router.push("/signIn");
+        await signInWithEmailAndPassword(auth, val.email, val.password);
+        router.push("/");
       } catch (error) {
         Toast.error(
           error instanceof Error ? error.message : String(error),
@@ -43,6 +41,7 @@ const signIn = () => {
         <AuthForm
           type={"Sign in"}
           onSubmit={handlesignIn}
+          otherwiseLabel={"Sign up"}
           otherwiseRoute={"/signUp"}
           otherwiseText={"Don't have an account?"}
         />

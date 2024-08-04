@@ -1,22 +1,26 @@
 // AuthContext.tsx
-import React, { createContext, useContext, useMemo } from "react";
-import { initializeApp } from "firebase/app";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
-import { firebaseConfig } from "@/firebaseConfig";
-
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-const app = initializeApp(firebaseConfig);
-// initialize Firebase Auth for that app immediately
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
-const AuthContext = createContext(auth);
+const AuthContext = createContext<User | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const authValue = useMemo(() => auth, []);
+  const [authValue, setAuthValue] = useState<User | null>(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthValue(user);
+    });
+    return () => unsubscribe();
+  }, []);
   return (
     <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
   );

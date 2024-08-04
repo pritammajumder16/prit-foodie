@@ -31,6 +31,9 @@ const index = () => {
       <Link href={"/signUp"} className="text-primary-500">
         <Text>Sign up now!</Text>
       </Link>
+      <Link href={"/addDocument"} className="text-primary-500">
+        Add doc
+      </Link>
       <View className="bg-white  pt-2 px-4">
         <View className="flex-row items-center space-x-2">
           <Image

@@ -8,8 +8,8 @@ import { Toast } from "toastify-react-native";
 import CustomLogo from "@/assets/staticSvgComponents/logo";
 import AuthForm from "@/components/Data/AuthForm";
 import { AuthFormProps } from "@/interfaces/types";
+import { auth } from "@/firebaseConfig";
 const signUp = () => {
-  const auth = useAuth();
   const router = useRouter();
   const handleSignUp = async (val: AuthFormProps) => {
     console.log("auth", auth);
@@ -44,6 +44,7 @@ const signUp = () => {
           type={"Sign up"}
           onSubmit={handleSignUp}
           otherwiseRoute={"/signIn"}
+          otherwiseLabel={"Sign in"}
           otherwiseText={"Already have an account?"}
         />
       </ScrollView>
