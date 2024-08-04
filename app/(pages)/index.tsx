@@ -53,7 +53,7 @@ const index = () => {
         <View className="flex-row items-center space-x-2">
           <Image
             className="h-7 w-7 rounded-full"
-            source={{ uri: require("../../assets/images/bikeIcon.avif") }}
+            source={require("../../assets/images/bikeIcon.png")}
           />
           <View className="flex-1">
             <Text className="font-bold text-gray-400 text-xs">

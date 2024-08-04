@@ -31,7 +31,7 @@ const delivery = () => {
               <Text className="text-4xl font-bold">45-55 minutes</Text>
             </View>
             <Image
-              source={{ uri: require("../../assets/images/cycle_riding.webp") }}
+              source={require("../../assets/images/cycle_riding.webp")}
               className="h-20 w-20"
             />
           </View>
@@ -58,7 +58,7 @@ const delivery = () => {
       </MapView>
       <SafeAreaView className="bg-white flex-row items-center space-x-5 h-20">
         <Image
-          source={{ uri: require("../../assets/images/bikeIcon.avif") }}
+          source={require("../../assets/images/bikeIcon.png")}
           className="h-12 w-12 p-4 rounded-full ml-5"
         />
         <View className="flex-1">

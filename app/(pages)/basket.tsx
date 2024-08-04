@@ -53,7 +53,7 @@ const basket = () => {
         </View>
         <View className="flex-row items-center space-x-4 px-4 py-4 bg-white my-5">
           <Image
-            source={{ uri: require("../../assets/images/bikeIcon.avif") }}
+            source={require("../../assets/images/bikeIcon.png")}
             className="h-7 w-7 bg-gray-300 p-4 rounded-full"
           />
           <Text className="flex-1">Deliver in 50-75 min</Text>
