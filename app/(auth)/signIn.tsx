@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -10,6 +10,7 @@ import { AuthFormProps } from "@/interfaces/types";
 import { auth } from "@/firebaseConfig";
 const signIn = () => {
   const router = useRouter();
+
   const handlesignIn = async (val: AuthFormProps) => {
     console.log("auth", auth);
     if (auth) {
@@ -24,6 +25,9 @@ const signIn = () => {
       }
     }
   };
+  useEffect(() => {
+    router.push("/");
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView className="px-5 py-10 flex  h-full">

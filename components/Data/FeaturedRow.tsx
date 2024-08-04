@@ -26,6 +26,7 @@ const FeaturedRow = ({
   title,
   description,
   id,
+  categories,
   restaurantIds,
 }: TFeaturedRow) => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
@@ -69,6 +70,9 @@ const FeaturedRow = ({
       <Text className="text-gray-500 text-xs">{description}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {restaurants?.map((restaurant) => {
+          const category = categories.find(
+            (category) => category.id == restaurant.categoryId
+          );
           return (
             <RestaurantCard
               key={restaurant.id}
@@ -76,7 +80,7 @@ const FeaturedRow = ({
               imgUrl={restaurant.image}
               title={restaurant.name}
               rating={Number(restaurant.rating)}
-              categoryId={restaurant.categoryId}
+              category={category}
               address={restaurant.address}
               dishesIds={restaurant.dishes || []}
               long={Number(restaurant.long)}

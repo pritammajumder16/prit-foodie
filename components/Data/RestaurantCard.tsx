@@ -1,19 +1,17 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MapPinIcon } from "react-native-heroicons/outline";
 import { StarIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { TRestaurantCard } from "@/interfaces/types";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/firebaseConfig";
 
 const RestaurantCard = ({
   id,
   imgUrl,
   title,
   rating,
-  categoryId,
+  category,
   address,
   dishesIds,
   long,
@@ -21,16 +19,7 @@ const RestaurantCard = ({
   short_description,
 }: TRestaurantCard) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [category, setCategory] = useState<any>();
-  useEffect(() => {
-    (async () => {
-      const colRef = doc(db, "categories", categoryId);
-      const docResponse = await getDoc(colRef);
-      const category = docResponse.data();
-      console.log("Category", category);
-      setCategory(category);
-    })();
-  }, []);
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -39,7 +28,7 @@ const RestaurantCard = ({
           imgUrl,
           title,
           rating,
-          categoryId,
+          categoryId: category?.id,
           address,
           dishesIds,
           long,

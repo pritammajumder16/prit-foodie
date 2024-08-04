@@ -1,4 +1,11 @@
-import { Image, ScrollView, StatusBar, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -9,16 +16,25 @@ import {
 import SearchTextInput from "@/components/Shared/SearchTextInput";
 import Categories from "@/components/Data/Categories";
 import FeaturedRow from "@/components/Data/FeaturedRow";
-import { IFeaturedRow } from "@/interfaces/interfaces";
+import { ICategory, IFeaturedRow } from "@/interfaces/interfaces";
 import { Link, useFocusEffect } from "expo-router";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
+import BottomSheet from "@/components/Ui/BottomSheet";
 const index = () => {
   const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
-
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [displayBottomSheet, setDisplayBottomSheet] = useState<boolean>(false);
   useEffect(() => {
     (async () => {
       try {
+        const allCategoriesColRef = collection(db, "categories");
+        const allCategoriesResponse = await getDocs(allCategoriesColRef);
+        const tempAllCategories: any[] = [];
+        allCategoriesResponse.forEach((documentRef) => {
+          tempAllCategories.push({ ...documentRef.data(), id: documentRef.id });
+        });
+        setCategories(tempAllCategories);
         const featuredCategoryColRef = collection(db, "featuredCategory");
         const featuredCategoryResponse = await getDocs(featuredCategoryColRef);
         const tempFeaturedCategories: any[] = [];
@@ -55,7 +71,12 @@ const index = () => {
             className="h-7 w-7 rounded-full"
             source={require("../../assets/images/bikeIcon.png")}
           />
-          <View className="flex-1">
+          <TouchableOpacity
+            className="flex-1 "
+            onPress={() => {
+              setDisplayBottomSheet(true);
+            }}
+          >
             <Text className="font-bold text-gray-400 text-xs">
               Deliver Now!
             </Text>
@@ -65,7 +86,7 @@ const index = () => {
               </Text>
               <ChevronDownIcon size={20} color={"#00CCBB"} />
             </View>
-          </View>
+          </TouchableOpacity>
           <UserIcon size={35} color="#00CCBB" />
         </View>
         <View className="flex-row items-center pb-2 space-x-2 mt-2">
@@ -81,6 +102,7 @@ const index = () => {
         {featuredRows?.map((featuredRow: IFeaturedRow) => {
           return (
             <FeaturedRow
+              categories={categories}
               key={featuredRow?.id}
               id={featuredRow?.id}
               title={featuredRow?.name}
@@ -90,6 +112,17 @@ const index = () => {
           );
         })}
       </ScrollView>
+      <BottomSheet
+        isVisible={displayBottomSheet}
+        onClose={() => {
+          console.log("Sheet closed");
+          setDisplayBottomSheet(false);
+        }}
+      >
+        <View>
+          <Text className="text-2xl font-semibold">Deliver to</Text>
+        </View>
+      </BottomSheet>
     </SafeAreaView>
   );
 };

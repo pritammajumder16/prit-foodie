@@ -1,9 +1,11 @@
+import { ICategory } from "./interfaces";
+
 export type TRestaurantCard = {
   id: string;
   imgUrl: string;
   title: string;
   rating: number;
-  categoryId: string;
+  category?: ICategory;
   address: string;
   dishesIds: string[];
   long: number;
@@ -35,6 +37,7 @@ export type TFeaturedRow = {
   title: string;
   description: string;
   id: string;
+  categories: ICategory[];
   restaurantIds: string[];
 };
 export type TCategoryCard = { imgUrl: string; title: string };
