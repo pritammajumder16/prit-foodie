@@ -41,6 +41,7 @@
     "react-hook-form": "^7.52.2",
     "react-native": "0.74.2",
     "react-native-animatable": "^1.4.0",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-heroicons": "^4.0.0",
     "react-native-maps": "1.14.0",
