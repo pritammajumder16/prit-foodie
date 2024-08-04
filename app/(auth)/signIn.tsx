@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
+import React, { useEffect, useLayoutEffect } from "react";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Toast } from "toastify-react-native";
@@ -25,15 +25,17 @@ const signIn = () => {
       }
     }
   };
-  useEffect(() => {
-    router.push("/");
-  }, []);
   return (
     <SafeAreaView>
       <ScrollView className="px-5 py-10 flex  h-full">
-        <View className="w-full flex items-center">
+        <TouchableOpacity
+          className="w-full flex items-center"
+          onPress={() => {
+            router.push("/");
+          }}
+        >
           <CustomLogo />
-        </View>
+        </TouchableOpacity>
         <View className="flex pt-5 items-center gap-4">
           <Text className=" text-3xl font-semibold text-primary-500">
             Sign in

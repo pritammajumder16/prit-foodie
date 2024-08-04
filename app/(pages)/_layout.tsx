@@ -6,6 +6,11 @@ const _layout = () => {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="allergyfood" options={{ presentation: "modal" }} />
+
+      <Stack.Screen
+        name="addAddress"
+        options={{ presentation: "fullScreenModal" }}
+      />
       <Stack.Screen
         name="restaurant"
         options={{ presentation: "containedModal" }}

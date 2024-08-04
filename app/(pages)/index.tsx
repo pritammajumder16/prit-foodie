@@ -21,6 +21,7 @@ import { Link, useFocusEffect } from "expo-router";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import BottomSheet from "@/components/Ui/BottomSheet";
+import AddressBottomSheet from "@/components/Data/AddressBottomSheet";
 const index = () => {
   const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -58,72 +59,67 @@ const index = () => {
     }, [])
   );
   return (
-    <SafeAreaView className="flex-1">
-      <Link href={"/signUp"} className="text-primary-500">
-        <Text>Sign up now!</Text>
-      </Link>
-      <Link href={"/addDocument"} className="text-primary-500">
-        Add doc
-      </Link>
-      <View className="bg-white  pt-2 px-4">
-        <View className="flex-row items-center space-x-2">
-          <Image
-            className="h-7 w-7 rounded-full"
-            source={require("../../assets/images/bikeIcon.png")}
-          />
-          <TouchableOpacity
-            className="flex-1 "
-            onPress={() => {
-              setDisplayBottomSheet(true);
-            }}
-          >
-            <Text className="font-bold text-gray-400 text-xs">
-              Deliver Now!
-            </Text>
-            <View className="flex-row items-center">
-              <Text className="text-xl font-bold justify-center">
-                Current Location
-              </Text>
-              <ChevronDownIcon size={20} color={"#00CCBB"} />
-            </View>
-          </TouchableOpacity>
-          <UserIcon size={35} color="#00CCBB" />
-        </View>
-        <View className="flex-row items-center pb-2 space-x-2 mt-2">
-          <SearchTextInput />
-          <AdjustmentsVerticalIcon color="#00CCBB" />
-        </View>
-      </View>
-      <ScrollView
-        className="pt-2 px-4 mb-4"
-        showsVerticalScrollIndicator={false}
-      >
-        <Categories />
-        {featuredRows?.map((featuredRow: IFeaturedRow) => {
-          return (
-            <FeaturedRow
-              categories={categories}
-              key={featuredRow?.id}
-              id={featuredRow?.id}
-              title={featuredRow?.name}
-              restaurantIds={featuredRow?.restaurants}
-              description={featuredRow?.short_description}
+    <>
+      <SafeAreaView className="flex-1">
+        <Link href={"/signUp"} className="text-primary-500">
+          <Text>Sign up now!</Text>
+        </Link>
+        <Link href={"/addDocument"} className="text-primary-500">
+          Add doc
+        </Link>
+        <View className="bg-white  pt-2 px-4">
+          <View className="flex-row items-center space-x-2">
+            <Image
+              className="h-7 w-7 rounded-full"
+              source={require("../../assets/images/bikeIcon.png")}
             />
-          );
-        })}
-      </ScrollView>
-      <BottomSheet
-        isVisible={displayBottomSheet}
-        onClose={() => {
-          console.log("Sheet closed");
-          setDisplayBottomSheet(false);
-        }}
-      >
-        <View>
-          <Text className="text-2xl font-semibold">Deliver to</Text>
+            <TouchableOpacity
+              className="flex-1 "
+              onPress={() => {
+                setDisplayBottomSheet(true);
+              }}
+            >
+              <Text className="font-bold text-gray-400 text-xs">
+                Deliver Now!
+              </Text>
+              <View className="flex-row items-center">
+                <Text className="text-xl font-bold justify-center">
+                  Current Location
+                </Text>
+                <ChevronDownIcon size={20} color={"#00CCBB"} />
+              </View>
+            </TouchableOpacity>
+            <UserIcon size={35} color="#00CCBB" />
+          </View>
+          <View className="flex-row items-center pb-2 space-x-2 mt-2">
+            <SearchTextInput />
+            <AdjustmentsVerticalIcon color="#00CCBB" />
+          </View>
         </View>
-      </BottomSheet>
-    </SafeAreaView>
+        <ScrollView
+          className="pt-2 px-4 mb-4"
+          showsVerticalScrollIndicator={false}
+        >
+          <Categories />
+          {featuredRows?.map((featuredRow: IFeaturedRow) => {
+            return (
+              <FeaturedRow
+                categories={categories}
+                key={featuredRow?.id}
+                id={featuredRow?.id}
+                title={featuredRow?.name}
+                restaurantIds={featuredRow?.restaurants}
+                description={featuredRow?.short_description}
+              />
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
+      <AddressBottomSheet
+        displayBottomSheet={displayBottomSheet}
+        setDisplayBottomSheet={setDisplayBottomSheet}
+      />
+    </>
   );
 };
 
