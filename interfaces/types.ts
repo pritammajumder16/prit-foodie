@@ -3,6 +3,18 @@ export type TRestaurantCard = {
   imgUrl: string;
   title: string;
   rating: number;
+  categoryId: string;
+  address: string;
+  dishesIds: string[];
+  long: number;
+  lat: number;
+  short_description: string;
+};
+export type IRestaurantReducer = {
+  id: string;
+  imgUrl: string;
+  title: string;
+  rating: number;
   genre: string;
   address: string;
   dishes: any[];
@@ -23,6 +35,7 @@ export type TFeaturedRow = {
   title: string;
   description: string;
   id: string;
+  restaurantIds: string[];
 };
 export type TCategoryCard = { imgUrl: string; title: string };
 

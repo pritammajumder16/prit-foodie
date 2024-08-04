@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
-import { urlFor } from "@/services/sanity";
 import { formatINR } from "@/utils/formatINR";
 import { MinusCircleIcon, PlusCircleIcon } from "react-native-heroicons/solid";
 import { TDishRow } from "@/interfaces/types";
@@ -9,7 +8,6 @@ import {
   addItem,
   removeItem,
   selectBasketItemWithId,
-  selectBasketItems,
 } from "@/redux/reducers/basketReducer";
 
 const DishRow = ({ id, name, description, price, image }: TDishRow) => {
@@ -47,7 +45,7 @@ const DishRow = ({ id, name, description, price, image }: TDishRow) => {
           </View>
           <View>
             <Image
-              source={{ uri: urlFor(image).url() }}
+              source={{ uri: image }}
               className="border border-gray-300 h-20 w-20 bg-gray-300 p-4"
             />
           </View>

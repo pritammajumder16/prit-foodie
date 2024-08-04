@@ -1,7 +1,11 @@
 import { IRestaurant } from "@/interfaces/interfaces";
-import { TDishRow, TRestaurantCard } from "@/interfaces/types";
+import {
+  IRestaurantReducer,
+  TDishRow,
+  TRestaurantCard,
+} from "@/interfaces/types";
 import { createSlice } from "@reduxjs/toolkit";
-const initialState: { item: TRestaurantCard } = {
+const initialState: { item: IRestaurantReducer } = {
   item: {
     id: "",
     imgUrl: "",

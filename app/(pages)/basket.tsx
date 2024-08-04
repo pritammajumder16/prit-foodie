@@ -12,7 +12,6 @@ import {
 import { TDishRow } from "@/interfaces/types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { XCircleIcon } from "react-native-heroicons/solid";
-import { urlFor } from "@/services/sanity";
 import { formatINR } from "@/utils/formatINR";
 
 const basket = () => {
@@ -54,7 +53,7 @@ const basket = () => {
         </View>
         <View className="flex-row items-center space-x-4 px-4 py-4 bg-white my-5">
           <Image
-            source={{ uri: "https://links.papareact.com/wru" }}
+            source={{ uri: require("../../assets/images/bikeIcon.avif") }}
             className="h-7 w-7 bg-gray-300 p-4 rounded-full"
           />
           <Text className="flex-1">Deliver in 50-75 min</Text>
@@ -71,7 +70,7 @@ const basket = () => {
               >
                 <Text>{items.length} x</Text>
                 <Image
-                  source={{ uri: urlFor(items[0].image).url() }}
+                  source={{ uri: items[0].image }}
                   className="h-12 w-12 rounded-full"
                 />
                 <Text className="flex-1">{items[0].name}</Text>

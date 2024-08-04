@@ -6,9 +6,8 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
-import { urlFor } from "@/services/sanity";
 import {
   ArrowLeftIcon,
   ChevronRightIcon,
@@ -17,45 +16,95 @@ import {
 } from "react-native-heroicons/outline";
 import { StarIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "expo-router";
-import { IDish } from "@/interfaces/interfaces";
+import { ICategory, IDish } from "@/interfaces/interfaces";
 import DishRow from "@/components/Data/DishRow";
 import BasketItems from "@/components/Data/BasketItems";
 import { useDispatch } from "react-redux";
 import { setRestaurant } from "@/redux/reducers/restaurantReducer";
+import { db } from "@/firebaseConfig";
+import {
+  collection,
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+
+const chunkArray = (array: any[], size: number) => {
+  const result = [];
+  for (let i = 0; i < array?.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
 
 const restaurant = () => {
+  const [dishes, setDishes] = useState<IDish[]>([]);
+
+  const [category, setCategory] = useState<ICategory>();
   const {
     params: {
       id,
       imgUrl,
       title,
       rating,
-      genre,
+      categoryId,
       address,
-      dishes,
+      dishesIds,
       long,
       lat,
       short_description,
     },
   } = useRoute<any>();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(
-      setRestaurant({
-        id,
-        imgUrl,
-        title,
-        rating,
-        genre,
-        address,
-        dishes,
-        long,
-        lat,
-        short_description,
-      })
-    );
-  }, [dispatch]);
+    (async () => {
+      try {
+        const categoriesRef = doc(db, "categories", categoryId);
+        const docResponse = await getDoc(categoriesRef);
+        const category = docResponse.data();
+        setCategory(category as ICategory);
+        const dishesRef = collection(db, "dishes");
+        const chunks = chunkArray(dishesIds, 10);
+        const tempDishes: any[] = [];
+
+        for (const chunk of chunks) {
+          const dishesResponse = await getDocs(
+            query(dishesRef, where(documentId(), "in", chunk))
+          );
+          dishesResponse.docs.forEach((documentRef) => {
+            tempDishes.push({
+              ...documentRef.data(),
+              id: documentRef.id,
+            });
+          });
+        }
+
+        setDishes(tempDishes);
+        const dispatchObject = {
+          id,
+          imgUrl,
+          title,
+          rating,
+          genre: category?.name,
+          address,
+          dishes,
+          long,
+          lat,
+          short_description,
+        };
+        console.log("Dispatch object", dispatchObject);
+        dispatch(setRestaurant(dispatchObject));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [id]);
   const navigation = useNavigation();
+  if (!dishes) return null;
   return (
     <>
       <ScrollView>
@@ -63,7 +112,7 @@ const restaurant = () => {
         <View className=" relative">
           <Image
             className="w-full h-56 p-4 bg-gray-300"
-            source={{ uri: urlFor(imgUrl).url() }}
+            source={{ uri: imgUrl }}
           />
           <TouchableOpacity
             onPress={() => {
@@ -81,7 +130,8 @@ const restaurant = () => {
               <View className="flex-row items-center space-x-1">
                 <StarIcon color="green" opacity={0.5} size={22} />
                 <Text className="text-xs text-gray-500">
-                  <Text className="text-green-500">{rating}</Text> . {genre}
+                  <Text className="text-green-500">{rating}</Text> .{" "}
+                  {category?.name}
                 </Text>
               </View>
             </View>
@@ -110,12 +160,12 @@ const restaurant = () => {
           {dishes?.map((dish: IDish) => {
             return (
               <DishRow
-                key={dish._id}
-                id={dish._id}
+                key={dish.id}
+                id={dish.id}
                 name={dish.name}
                 description={dish.short_description}
                 price={dish.price}
-                image={dish.Image}
+                image={dish.image}
               />
             );
           })}

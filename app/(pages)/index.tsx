@@ -9,21 +9,36 @@ import {
 import SearchTextInput from "@/components/Shared/SearchTextInput";
 import Categories from "@/components/Data/Categories";
 import FeaturedRow from "@/components/Data/FeaturedRow";
-import { getFullFeaturedRows } from "@/services/sanity";
 import { IFeaturedRow } from "@/interfaces/interfaces";
 import { Link, useFocusEffect } from "expo-router";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 const index = () => {
   const [featuredRows, setFeaturedRows] = useState<IFeaturedRow[]>([]);
 
   useEffect(() => {
-    getFullFeaturedRows().then((data) => {
-      setFeaturedRows(data);
-    });
+    (async () => {
+      try {
+        const featuredCategoryColRef = collection(db, "featuredCategory");
+        const featuredCategoryResponse = await getDocs(featuredCategoryColRef);
+        const tempFeaturedCategories: any[] = [];
+        featuredCategoryResponse.docs.forEach((documentRef) => {
+          tempFeaturedCategories.push({
+            ...documentRef.data(),
+            id: documentRef.id,
+          });
+        });
+        console.log(tempFeaturedCategories[0]);
+        setFeaturedRows(tempFeaturedCategories);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle("dark-content"); // 'light-content' is also available
-      StatusBar.setBackgroundColor("white"); //add color code
+      StatusBar.setBarStyle("dark-content");
+      StatusBar.setBackgroundColor("white");
     }, [])
   );
   return (
@@ -38,7 +53,7 @@ const index = () => {
         <View className="flex-row items-center space-x-2">
           <Image
             className="h-7 w-7 rounded-full"
-            source={{ uri: "https://links.papareact.com/wru" }}
+            source={{ uri: require("../../assets/images/bikeIcon.avif") }}
           />
           <View className="flex-1">
             <Text className="font-bold text-gray-400 text-xs">
@@ -66,10 +81,11 @@ const index = () => {
         {featuredRows?.map((featuredRow: IFeaturedRow) => {
           return (
             <FeaturedRow
-              key={featuredRow._id}
-              id={featuredRow._id}
-              title={featuredRow.name}
-              description={featuredRow.short_description}
+              key={featuredRow?.id}
+              id={featuredRow?.id}
+              title={featuredRow?.name}
+              restaurantIds={featuredRow?.restaurants}
+              description={featuredRow?.short_description}
             />
           );
         })}

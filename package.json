@@ -19,8 +19,6 @@
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-navigation/native": "^6.0.2",
     "@reduxjs/toolkit": "^2.2.6",
-    "@sanity/client": "^6.20.1",
-    "@sanity/image-url": "^1.0.2",
     "expo": "~51.0.14",
     "expo-application": "~5.9.1",
     "expo-auth-session": "~5.5.2",

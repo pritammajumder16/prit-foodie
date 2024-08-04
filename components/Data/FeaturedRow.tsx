@@ -2,18 +2,64 @@ import { View, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
-import { getOneFeaturedRow } from "@/services/sanity";
 import { IRestaurant } from "@/interfaces/interfaces";
 import { TFeaturedRow } from "@/interfaces/types";
+import {
+  collection,
+  documentId,
+  FieldPath,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
-const FeaturedRow = ({ title, description, id }: TFeaturedRow) => {
+const chunkArray = (array: any[], size: number) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
+
+const FeaturedRow = ({
+  title,
+  description,
+  id,
+  restaurantIds,
+}: TFeaturedRow) => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
+
   useEffect(() => {
     (async () => {
-      const response = await getOneFeaturedRow(id);
-      setRestaurants(response.restaurants);
+      try {
+        console.log("restaurantIds", restaurantIds);
+
+        const restaurantRef = collection(db, "restaurants");
+        const chunks = chunkArray(restaurantIds, 10);
+        const tempRestaurants: any[] = [];
+
+        for (const chunk of chunks) {
+          const restaurantsResponse = await getDocs(
+            query(restaurantRef, where(documentId(), "in", chunk))
+          );
+          console.log(restaurantsResponse.docs);
+          restaurantsResponse.docs.forEach((documentRef) => {
+            tempRestaurants.push({
+              ...documentRef.data(),
+              id: documentRef.id,
+            });
+          });
+        }
+
+        setRestaurants(tempRestaurants);
+        console.log("tempRestaurants[0]", tempRestaurants[0]);
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, [id]);
+
   return (
     <View>
       <View className="flex-row mt-4 items-center">
@@ -25,16 +71,16 @@ const FeaturedRow = ({ title, description, id }: TFeaturedRow) => {
         {restaurants?.map((restaurant) => {
           return (
             <RestaurantCard
-              key={restaurant._id}
-              id={restaurant._id}
+              key={restaurant.id}
+              id={restaurant.id}
               imgUrl={restaurant.image}
               title={restaurant.name}
-              rating={restaurant.rating}
-              genre={restaurant.type.name}
+              rating={Number(restaurant.rating)}
+              categoryId={restaurant.categoryId}
               address={restaurant.address}
-              dishes={restaurant.dishes || []}
-              long={restaurant.long}
-              lat={restaurant.lat}
+              dishesIds={restaurant.dishes || []}
+              long={Number(restaurant.long)}
+              lat={Number(restaurant.lat)}
               short_description={restaurant.short_description}
             />
           );
